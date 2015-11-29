@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from flask import Flask, render_template, request, flash
 from flask import Flask
-from forms import UserCreationForm , UserDeletion
+from forms import UserCreationForm , UserDeletion, UserUpdateForm
 from lib.createUser import *
 from lib.updateUser import *
 from lib.deleteUser import *
@@ -13,13 +13,12 @@ def hello_world():
      return render_template('welcome.html')
 
 @app.route('/create', methods=['GET', 'POST'])
-def update():
+def create():
   form = UserCreationForm()
  
   if request.method == 'POST':
     if form.validate() == False:
-      flash('All fields are required.')
-      return render_template('create_user1.html', form=form)
+      return render_template('create_user.html', form=form)
     else:
       
       print "Name Is %s" %(form.username.data)
@@ -38,24 +37,23 @@ def update():
 
 #      print f1 , f2 , f3, f4 ,f5,f6
       print ('hello i am here3')	 
-      s=createUser(f1,f2,f3,f4,f5)
+      s=createUser(f1,f2,f3,f4,f5,f6)
       print ('helllo i am here 4')
-      return s
+      return render_template('success.html' , result=s)
+
+  else:    
+      return render_template('create_user.html', form=form ,page_title = 'create User Form')
 
 
-
-
-  elif request.method == 'GET':
-    return render_template('create_user1.html', form=form ,page_title = 'create User Form')
 
 @app.route('/update', methods=['GET', 'POST'])
-def create():
-  form = UserCreationForm()
+def update():
+  form = UserUpdateForm()
 
   if request.method == 'POST':
     if form.validate() == False:
       flash('All fields are required.')
-      return render_template('create_user1.html', form=form)
+      return render_template('update_user.html', form=form)
     else:
 
       print "Name Is %s" %(form.username.data)
@@ -74,15 +72,15 @@ def create():
 
 #      print f1 , f2 , f3, f4 ,f5,f6
       print ('hello i am here3')
-      s=updateUser(f1,f2,f3,f4,f5)
+      u=updateUser(f1,f2,f3,f4,f5,f6)
       print ('helllo i am here 4')
-      return s
+      return render_template('success.html', result=u)
 
 
 
 
-  elif request.method == 'GET':
-    return render_template('create_user1.html', form=form ,page_title = 'Update User Form')
+  else:
+    return render_template('update_user.html', form=form ,page_title = 'Update User Form')
 
 
 
@@ -107,7 +105,7 @@ def delete():
       print ('hello i am here3')
       d=deleteUser(f7)
       print ('helllo i am here 4')
-      return d
+      return render_template('success.html', result=d)
 
 
 
