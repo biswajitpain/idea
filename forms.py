@@ -11,3 +11,12 @@ class UserCreationForm(Form):
   sudo = BooleanField("Sudo", default=False)
   submit = SubmitField("Submit")
 
+
+
+
+class UserDeletion(Form):
+  username = TextField("UserName",  [validators.Required()])
+  submit = SubmitField("Submit")
+
+
+
